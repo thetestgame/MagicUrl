@@ -1,0 +1,6 @@
+{
+    "dev": {
+        "s3_bucket": "magic-url-us-east-1",
+        "app_function": "magic.app"
+    }
+}

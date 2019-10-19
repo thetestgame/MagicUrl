@@ -79,3 +79,6 @@ class Config(object):
 
     # Cloudwatch
     LOG_METRICS = False
+
+    # S3
+    FLASKS3_BUCKET_NAME = 'magicurl-cdn-us-east-1'

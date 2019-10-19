@@ -1,0 +1,31 @@
+version: 0.2
+phases:
+  install:
+    commands:
+        - yum -y groupinstall development
+        - yum -y install zlib-devel
+        - yum -y install openssl-devel
+        - wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tar.xz
+        - tar xJf Python-3.6.0.tar.xz
+        - cd Python-3.6.0
+        - ./configure
+        - make
+        - make install 
+        - ln -s /usr/local/bin/python3.6 /usr/bin/python3
+        - curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+        - python3 get-pip.py
+        - pip3 install virtualenv
+        - virtualenv -p /usr/bin/python3 venv
+        - source venv/bin/activate
+        - pip3 install -r requirements.txt
+  build:
+    commands:
+        - echo Build started on `date`
+        - echo Building and running tests
+        - python3 tests.py
+  post_build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR
+      - rm -rf /tmp/src/
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then echo Build completed on `date`; echo Starting deployment; zappa update prod; else echo Build failed ignoring deployment; fi
+      - echo Deployment completed

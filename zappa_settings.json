@@ -1,10 +1,24 @@
 {
     "dev": {
-        "s3_bucket": "magic-url-us-east-1",
-        "app_function": "magic.app"
+        "s3_bucket": "magic-url-dev-us-east-1",
+        "app_function": "magic.wsgi.app",
+        "environment_variables": {
+            "ENVIRONMENT": "dev"
+        }
+    },
+    "test": {
+        "s3_bucket": "magic-url-test-us-east-1",
+        "app_function": "magic.wsgi.app",
+        "environment_variables": {
+            "ENVIRONMENT": "test"
+        }
     },
     "prod": {
-        "s3_bucket": "magic-url-us-east-1",
-        "app_function": "magic.app"
+        "s3_bucket": "magic-url-prod-us-east-1",
+        "app_function": "magic.wsgi.app"
+        ,
+        "environment_variables": {
+            "ENVIRONMENT": "prod"
+        }
     }
 }

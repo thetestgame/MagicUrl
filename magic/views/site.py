@@ -23,10 +23,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import boto3
 from flask import render_template
 from flask.views import MethodView
 
 from magic.decorators import view
+
+class SiteStats(object):
+    """
+    Contains all site statistics data
+    """
+
+    def __init__(self):
+        self._dynamo = boto3.resource('dynamodb')
+        self._url_table = self._dynamo.Table('magic-urls')
+
+        self.url_count = self._url_table.item_count
 
 @view.view_details(url='/')
 class IndexView(MethodView):
@@ -39,4 +51,5 @@ class IndexView(MethodView):
         Handles all GET requests 
         """
 
-        return render_template('pages/index.html')
+        stats = SiteStats()
+        return render_template('pages/index.html', stats=stats)

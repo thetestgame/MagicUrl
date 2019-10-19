@@ -1,6 +1,7 @@
 zappa
 tornado
 arrow
+boto3
 watchtower
 flask
 flask-debugtoolbar

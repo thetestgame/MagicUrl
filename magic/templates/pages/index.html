@@ -14,38 +14,58 @@
 {# Page Content #}
 {% block content %}
     {{super()}}
-    <div class="container">
-        <div id="main" class="jumbotron">
-            <h1 class="text-center">Enter a URL to shorten</h1>
-            <div class="form-group">
-                <input id="url" type="text" class="form-control" placeholder="Enter a URL to shorten">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Shorten Link -->
+                <div id="shorten" class="jumbotron">
+                    <h1 class="text-center">Enter a URL to shorten</h1>
+                    <h3 class="text-center">Links auto expire in 1 month</h3>
+                    <div class="form-group">
+                        <input id="url" type="text" class="form-control" placeholder="Enter a URL to shorten">
+                    </div>
+                    <div class="form-group text-center">
+                        <button id="shorten" type="submit" class="btn btn-lg btn-primary text-center">Shorten</button>
+                    </div>
+                </div>
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+                <script type="text/javascript">
+                    var host = window.location.href;
+                    if (!host.endsWith('/')) {
+                        host = host + '/';
+                    }
+
+                    $("#shorten").click(function () {
+                        var url = $("#url").val();
+                        if (!url.startsWith('http')) {
+                            url = "https://" + url;
+                        }
+                        console.log(url);
+                        $.ajax({
+                            url:  host + 'api/shorten/' + url,
+                            success: function(data){
+                                $("#main").append(
+                                    "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
+                                );
+                            }
+                        });
+                    });
+                </script>
             </div>
-            <div class="form-group text-center">
-                <button id="shorten" type="submit" class="btn btn-lg btn-primary text-center">Shorten</button>
+            <div class="col-lg-4">
+                <!-- Stats -->
+                <div id="stats" class="jumbotron p-4">
+                    <h1 class='text-center'>Site Stats</h1>
+                    <div class="stat-box">
+                        <h2>100 Urls Shortened</h2>
+                    </div>
+                </div>
+
+                <!-- Ad -->
+                <div id="ad" class="jumbotron p-4 text-center">
+                    <img src="https://via.placeholder.com/300x250?text=300x250+MPU"/>
+                </div>
             </div>
         </div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script type="text/javascript">
-            var host = window.location.href;
-            if (!host.endsWith('/')) {
-                host = host + '/';
-            }
-
-            $("#shorten").click(function () {
-                var url = $("#url").val();
-                if (!url.startsWith('http')) {
-                    url = "https://" + url;
-                }
-                console.log(url);
-                $.ajax({
-                    url:  host + 'api/shorten/' + url,
-                    success: function(data){
-                        $("#main").append(
-                                "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
-                        );
-                    }
-                });
-            });
-        </script>
     </div>
 {% endblock %}

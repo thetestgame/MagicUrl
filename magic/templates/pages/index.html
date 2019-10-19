@@ -43,7 +43,7 @@
                         $.ajax({
                             url:  host + 'api/shorten/' + url,
                             success: function(data){
-                                $("#main").append(
+                                $("#shorten").append(
                                     "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
                                 );
                             }

@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <!-- Shorten Link -->
-                <div id="shorten" class="jumbotron">
+                <div id="main" class="jumbotron">
                     <h1 class="text-center">Enter a URL to shorten</h1>
                     <h3 class="text-center">Links auto expire in one week</h3>
                     <div class="form-group">
@@ -45,7 +45,7 @@
                             url:  host + 'api/shorten/' + url,
                             success: function(data) {
                                 if (data != '') {
-                                    $("#shorten").append(
+                                    $("#main").append(
                                         "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
                                     );
                                 }

@@ -42,10 +42,12 @@
                         console.log(url);
                         $.ajax({
                             url:  host + 'api/shorten/' + url,
-                            success: function(data){
-                                $("#shorten").append(
-                                    "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
-                                );
+                            success: function(data) {
+                                if (data != '') {
+                                    $("#shorten").append(
+                                        "<div class='alert alert-info'><h3><a href='" + host + data + "'>" + host + data + "</a></h3></div>"
+                                    );
+                                }
                             }
                         });
                     });

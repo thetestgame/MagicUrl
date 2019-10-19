@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import re
 import flask
 from flask import render_template
 from flask.views import MethodView
@@ -41,10 +42,29 @@ class ShortenApiView(MethodView):
         Performs the request shorten action from the GET url parameter
         """
 
+        valid = self.validate_url(url)
+        if not valid:
+            return flask.Response()
+
         model = Url(url)
         model.save()
 
         return flask.Response(model.code)
+
+    def validate_url(self, url):
+        """
+        Validates the url. If its not valid returns False
+        """
+
+        regex = re.compile(
+                r'^(?:http|ftp)s?://' # http:// or https://
+                r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+                r'localhost|' #localhost...
+                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+                r'(?::\d+)?' # optional port
+                r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+        return re.match(regex, url)
 
 @view.view_details(url='/<path:code>')
 class ResolveView(MethodView):

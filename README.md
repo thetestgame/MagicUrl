@@ -1,6 +1,6 @@
 MagicUrl
 ========
-MagicURL is a serverless URL shortener powered by AWS, Zappa and Python. The development and deployment environment scripts are all designed for Windows. However the project its self is cross platform capable.
+MagicURL is a serverless URL shortener powered by AWS, Zappa and Python. The development and deployment environment scripts are all designed for Windows. However the project its self is cross platform capable. This project was originally created as a proof of concept for testing serverless websites inside AWS.
 
 ## Dependencies
 <b>Note: Not all dependencies are required to deploy MagicUrl as serverless. Optional dependencies are noted with a (X)</b>

@@ -11,7 +11,7 @@ rem Request user input
 
 rem Run Tail
 :TAIL
-    zappa %ENVIRONMENT% tail
+    zappa tail %ENVIRONMENT%
 
     pause
     goto :EOF

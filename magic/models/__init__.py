@@ -46,7 +46,8 @@ def create_tables(**kwargs):
     for model_info in models:
         model_cls = model_info.model_cls
         logging.info('Creating model: %s' % model_cls.__name__)
-        model_cls.create_table(**kwargs)
+        if not model_cls.exists():
+            model_cls.create_table(wait=True)
 
 @current_app.before_first_request
 def before_first_request(*args, **kwargs):

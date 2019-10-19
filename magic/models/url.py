@@ -23,20 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import pytz
+from datetime import datetime, timedelta
 from hashlib import md5
 from base64 import b64encode
 
 from pynamodb.models import Model
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection
-from pynamodb.attributes import UnicodeAttribute
+from pynamodb.attributes import UnicodeAttribute, TTLAttribute
 
+from magic.decorators import model
+
+@model.model_details()
 class Url(Model):
     """
     DynamoDB Model for url storage
     """
 
     class Meta:
-        table_name = 'magic-urls'
+        table_name = 'MagicUrl-urls'
+        read_capacity_units = 1
+        write_capacity_units = 1
 
     class CodeIndex(GlobalSecondaryIndex):
         class Meta:
@@ -48,13 +55,21 @@ class Url(Model):
     url = UnicodeAttribute(hash_key=True)
     code = UnicodeAttribute()
     code_index = CodeIndex()
+    ttl = TTLAttribute()
 
     def save(self, **kwargs):
         """
         Generates the shortened code before saving
         """
 
+        # Set automatic code
         self.code = b64encode(
             md5(self.url.encode('utf-8')).hexdigest()[-4:].encode('utf-8')
         ).decode('utf-8').replace('=', '').replace('/', '_')
+
+        # Set expire time
+        today = datetime.utcnow().replace(tzinfo=pytz.utc)
+        self.ttl = today + timedelta(days=7)
+
+        # Call parent
         super(Url, self).save(**kwargs)

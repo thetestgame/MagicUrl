@@ -36,7 +36,7 @@ class SiteStats(object):
 
     def __init__(self):
         self._dynamo = boto3.resource('dynamodb')
-        self._url_table = self._dynamo.Table('magic-urls')
+        self._url_table = self._dynamo.Table('MagicUrl-urls')
 
         self.url_count = self._url_table.item_count
 

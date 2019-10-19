@@ -34,7 +34,7 @@ class ModelBook(object):
     """
 
     def __init__(self):
-        self._models = {}
+        self._models = []
 
     @property
     def models(self):
@@ -45,11 +45,10 @@ class ModelBook(object):
         Registers a new model with the model book
         """
 
-        url = model_details.url
-        if url in self._models:
+        if model_details in self._models:
             raise ModelBookException('url %s is already assigned!' % url)
 
-        self._models[url] = model_details
+        self._models.append(model_details)
 
 model_book = ModelBook()
         
@@ -68,5 +67,7 @@ class ModelDetailsDecorator(object):
     def __call__(self, model_cls):
         self._model_cls = model_cls
         model_book.add_model(self)
+
+        return model_cls
 
 model_details = ModelDetailsDecorator

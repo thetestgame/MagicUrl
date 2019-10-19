@@ -5,6 +5,7 @@ MagicURL is a serverless URL shortener powered by AWS, Zappa and Python. The dev
 <b>Note: This project should be considered a work in progress experiment. Not a release ready product</b>
 
 ## Dependencies
+* pytz
 * zappa
 * tornado
 * arrow

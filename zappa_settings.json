@@ -15,8 +15,7 @@
     },
     "prod": {
         "s3_bucket": "magic-url-prod-us-east-1",
-        "app_function": "magic.wsgi.app"
-        ,
+        "app_function": "magic.wsgi.app",
         "environment_variables": {
             "ENVIRONMENT": "prod"
         }
